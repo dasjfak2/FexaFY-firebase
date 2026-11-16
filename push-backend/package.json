@@ -1,6 +1,6 @@
 {
   "name": "fexafy-push-backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "description": "FexaFY optional true-background-push backend. Two small serverless functions, deployed on your own free Vercel account. No card required.",
