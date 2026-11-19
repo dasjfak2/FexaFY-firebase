@@ -28,7 +28,7 @@ const b64u = (buf) => Buffer.from(buf).toString("base64url");
 export function createHandler(deps) {
   const { redis, fetchFn, privateJwk, clientId, pepper, allowedOrigin } = deps;
   // Owner/tester emails (lowercase). Matched in memory against Google's verified email; never stored.
-  const ownerEmails = (deps.ownerEmails || []).map((e) => String(e).trim().toLowerCase()).filter(Boolean);
+  const ownerEmails = (deps.ownerEmails || []).map((e) => String(e).trim().replace(/^["']+|["']+$/g, "").toLowerCase()).filter(Boolean);
   const now = deps.now || (() => Date.now());
   const privateKey = crypto.createPrivateKey({ key: privateJwk, format: "jwk" });
 
@@ -110,7 +110,7 @@ export default async function handler(req, res) {
       clientId: process.env.GOOGLE_CLIENT_ID,
       pepper: process.env.ID_PEPPER,
       allowedOrigin: process.env.PLUS_ALLOWED_ORIGIN,
-      ownerEmails: (process.env.OWNER_EMAILS || "").split(",")
+      ownerEmails: (process.env.OWNER_EMAILS || "").split(/[\s,;]+/)
     });
   }
   return _default(req, res);
